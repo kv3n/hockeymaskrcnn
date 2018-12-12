@@ -1,6 +1,7 @@
 import cv2 as cv
 from debug import Debug
 
+
 class VideoReader:
     def __init__(self, filename):
         self.cap = cv.VideoCapture('data/' + filename + '.mp4')
@@ -25,6 +26,7 @@ class VideoReader:
 
         return frame
 
+"""
 #####################################################################
 ## TEST
 #####################################################################
@@ -36,3 +38,4 @@ while True:
     frame = vr.read_frame(show_frame=True)
     if frame is None:
         break
+"""

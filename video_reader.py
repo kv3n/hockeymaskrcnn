@@ -12,19 +12,33 @@ class VideoReader:
         cv.destroyAllWindows()
         Debug().log('[Video Reader] Closing Capture')
 
-    def read_frame(self, show_frame=False):
+    def read_frame(self, show_frame=False, color_format='rgb'):
         ret, frame = self.cap.read()
 
         if not ret:
             frame = None
-        elif show_frame:
+        else:
             if show_frame:
                 cv.imshow('Video Input', frame)
                 in_key = cv.waitKey()
                 if in_key == ord('q'):
                     frame = None
 
+        if frame is not None:
+            if color_format == 'rgb':
+                conversion = cv.COLOR_BGR2RGB
+            elif color_format == 'gray':
+                conversion = cv.COLOR_BGR2GRAY
+            elif color_format == 'hsv':
+                conversion = cv.COLOR_BGR2HSV
+            else:
+                conversion = None
+
+            if conversion is not None:
+                frame = cv.cvtColor(frame, conversion)
+
         return frame
+
 
 """
 #####################################################################

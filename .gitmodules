@@ -1,0 +1,3 @@
+[submodule "tf-pose-estimation"]
+	path = tf-pose-estimation
+	url = https://github.com/kv3n/tf-pose-estimation.git

@@ -4,24 +4,33 @@ from debug import Debug
 
 class VideoReader:
     def __init__(self, filename):
+        self.cur_frame = 0
         self.cap = cv.VideoCapture('data/' + filename + '.mp4')
-        Debug().log('[Video Reader] Loading data/{}.mp4'.format(filename))
+        self.video_length = int(self.cap.get(cv.CAP_PROP_FRAME_COUNT))
+        Debug().log('[Video Reader] Loading data/{}.mp4 of length {}'.format(filename, self.video_length))
 
     def __del__(self):
+        self.reset_video()
         self.cap.release()
         cv.destroyAllWindows()
         Debug().log('[Video Reader] Closing Capture')
+
+    def reset_video(self):
+        self.cur_frame = 0
 
     def read_frame(self, show_frame=False, color_format='rgb'):
         ret, frame = self.cap.read()
 
         if not ret:
+            self.reset_video()
             frame = None
         else:
+            self.cur_frame += 1
             if show_frame:
                 cv.imshow('Video Input', frame)
                 in_key = cv.waitKey()
                 if in_key == ord('q'):
+                    self.reset_video()
                     frame = None
 
         if frame is not None:
